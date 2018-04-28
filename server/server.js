@@ -3,23 +3,24 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   router = require('./router'),
-  mg = require('mongoose');
+  mgConn = require('./mongoose-conn');
+
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
   // application specific logging, throwing an error, or other logic here
 });
 
-const mongoUri = 'mongodb://localhost:27017/file-upload';
-mg.connect(mongoUri)
-  .then(() => console.log(`mongoose connected on: ${mongoUri}`),
-    err => console.log(`mongoose connection error: ${mongoUri}`, err));
 
 
 const app = express();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use((req,res,next) => {
+  req.user = {userName: 'dank'};
+  next();
+})
 
 
 

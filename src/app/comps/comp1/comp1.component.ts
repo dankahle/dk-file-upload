@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Contact} from '../../contact';
 import {ContactService} from '../../contact.service';
 import {Observable} from 'rxjs/Observable';
 import {HttpHeaders} from '@angular/common/http';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-comp1',
@@ -12,6 +13,7 @@ import {HttpHeaders} from '@angular/common/http';
 export class Comp1Component {
   contact = new Contact();
   contacts: Contact[];
+  @ViewChild('fileUp') fileUp;
 
   constructor(private contactService: ContactService) {
   }
@@ -35,41 +37,17 @@ export class Comp1Component {
 
   submit(event) {
 
-    let formData: FormData = new FormData();
-    formData.append('name', this.contact.name);
-    formData.append('age', this.contact.age.toString());
-    // formData.append('userpic', myFileInput.files[0], 'chris.jpg');
-    let options = {
-      headers: {
-        Accept: 'application/json'
-      }
+    const fileInput = this.fileUp.nativeElement;
+    if (!fileInput.files.length) {
+      console.error('please choose a file');
+      return;
     }
-    this.contactService.addFd(formData)
+
+    this.contactService.addFd(this.contact, fileInput.files)
       .subscribe(() => this.refresh());
 
-/*
-    let fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      let file: File = fileList[0];
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-      let headers = new HttpHeaders();
-      /!** In Angular 5, including the header Content-Type can invalidate your request *!/
-      // headers.append('Content-Type', 'multipart/form-data');
-      headers.append('Accept', 'application/json');
-      let options = {headers: headers};
-      this.http.post(`${this.apiEndPoint}`, formData, options)
-        .map(res => res.json())
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => console.log('success'),
-          error => console.log(error)
-        );
-    }
-*/
-
-
   }
+
 
 /*
   fileChange(event) {

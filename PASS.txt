@@ -1,0 +1,11 @@
+
+pass:
+
+so... what should go where?
+
+contact >> contact collection
+file >> fs, but can have req.body in fs.file.metadata and can have filename/id/etc in contact collection.
+
+file is gonna be queried by ?? say admin wanted to see what was juploaded... then can list the files, need to get the user in there
+
+

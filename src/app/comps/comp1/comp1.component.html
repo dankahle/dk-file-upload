@@ -26,7 +26,7 @@
 <form #form="ngForm">
   name: <input name="name" [(ngModel)]="contact.name" autocomplete="off"><br>
   age: <input name="age" [(ngModel)]="contact.age" autocomplete="off"><br>
-  <!--<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">-->
+  <input #fileUp type="file" placeholder="Upload file" accept=".csv,.xlsx"><br>
 
   <button (click)="submit()">submit</button><br>
 
