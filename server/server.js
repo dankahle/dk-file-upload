@@ -5,7 +5,7 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   multer = require('multer'),
   morgan = require('morgan'),
-  router = require('router');
+  router = require('./router');
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -20,9 +20,14 @@ mongoose.connect(config.mongoUri)
 
 
 const app = require('express');
+app.use(cors());
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 
 app.use('/api/contacts', fileRouter);
+
+const port = 3005;
+app.listen(port, () => console.log(`listening on port: ${port}`))
 
 
