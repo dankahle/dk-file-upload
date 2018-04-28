@@ -1,5 +1,7 @@
 const ApiError = require('../common/api-error'),
-  Validate = require('../common/validate');
+  Validate = require('../common/validate'),
+  repo = require('./repo'),
+  schema = {};
 
 module.exports = class Controller {
 

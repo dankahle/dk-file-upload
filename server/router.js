@@ -1,8 +1,8 @@
 const express = require('express'),
   router = express.Router(),
-  ModuleController = require('./controller');
+  Controller = require('./controller');
 
-const ctrl = new ModuleController();
+const ctrl = new Controller();
 
 module.exports = router
   .get('/', ctrl.getMany.bind(ctrl))
