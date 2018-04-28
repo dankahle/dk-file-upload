@@ -1,0 +1,25 @@
+
+
+<h3>File List</h3>
+<table>
+  <tr><th>id</th><th>fileName</th><th>size</th><th>module</th><th>section</th><th>type</th><th></th></tr>
+  <tr *ngFor="let file of files">
+    <td>{{file.id}}</td>
+    <td>{{file.fileName}}</td>
+    <td>{{file.mime}}</td>
+    <td>{{file.size}}</td>
+    <td>{{file.module}}</td>
+    <td>{{file.section}}</td>
+    <td>{{file.type}}</td>
+  </tr>
+</table>
+
+<table>
+  <tr><th>id</th><th>name</th><th>age</th></tr>
+  <tr *ngFor="let contact of contacts">
+    <td>{{contact.id}}</td>
+    <td>{{contact.name}}</td>
+    <td>{{contact.age}}</td>
+  </tr>
+</table>
+
