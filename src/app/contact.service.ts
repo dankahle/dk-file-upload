@@ -1,16 +1,16 @@
-import {Injectable, Contactype} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient} from '@angular/common/http';
-import {Contact} from "./contact";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Contact} from './contact';
 
 const apiUrl = 'http://localhost:3005';
 
 
-
 @Injectable()
 export class ContactService {
+  endpointName = 'contact'
 
-  constructor(private endpointName: string, protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient) {
   }
 
   getMany(): Observable<Contact[]> {
@@ -23,6 +23,11 @@ export class ContactService {
 
   add(data) {
     return this.httpClient.post<Contact>(`${apiUrl}/api/${this.endpointName}`, data);
+  }
+
+  addFd(data) {
+    const fdOptions = {headers: {Accept: 'application/json'}};
+    return this.httpClient.post<Contact>(`${apiUrl}/api/${this.endpointName}`, data, fdOptions);
   }
 
   update(data: Contact): Observable<Contact> {

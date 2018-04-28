@@ -1,17 +1,21 @@
 const mg = require('mongoose'),
-  ApiError = require('../common/api-error'),
+  ApiError = require('./api-error'),
   _ = require('lodash');
 
 module.exports = class Repo {
 
-  constructor(schema, modelName) {
-    schema.add({timestamp: 'number'});
-    schema.path('timestamp').required(true);
-    schema.set('toObject', {virtuals: true});
-    schema.virtual('id').get(function() {
+
+  constructor() {
+    this.schema = mg.Schema({
+      name: {type: String, required: true},
+      age: {type: String, required: true}
+    });
+
+    this.schema.set('toObject', {virtuals: true});
+    this.schema.virtual('id').get(function() {
       return this._id.toString();
     });
-    this.Model = mg.model(modelName, schema);
+    this.Model = mg.model('Contact', this.schema);
   }
 
   getMany(limit, skip) {
@@ -39,28 +43,20 @@ module.exports = class Repo {
       });
   }
 
-  add(data, userName) {
+  add(data) {
     // if versioning items, our edits will actually be adds, so dump the ids in that case
     delete data._id;
     delete data.id;
     const item = new this.Model(data);
-    item.createdBy = userName;
-    item.createdDate = new Date().toISOString();
-    item.updatedBy = userName;
-    item.updatedDate = new Date().toISOString();
-    item.timestamp = Date.now();
     return item.save();
   }
 
-  update(data, userName) {
-    return this.getOneWithTimestamp(data)
+  update(data) {
+    return this.get(data)
       .then(item => {
         _.merge(item, data);
         delete item._id;
         delete item.id;
-        item.updatedBy = userName;
-        item.updatedDate = new Date().toISOString();
-        item.timestamp = Date.now();
         return item.save()
       });
   }

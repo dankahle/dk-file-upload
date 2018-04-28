@@ -1,12 +1,11 @@
-const ApiError = require('../common/api-error'),
-  Validate = require('../common/validate'),
-  repo = require('./repo'),
+const ApiError = require('./api-error'),
+  Repo = require('./repo'),
   schema = {};
 
 module.exports = class Controller {
 
   constructor(repo, schema) {
-    this.repo = repo;
+    this.repo = new Repo();
     this.schema = schema;
   }
 
@@ -31,11 +30,7 @@ module.exports = class Controller {
 
   add(req, res, next) {
     const data = req.body;
-    const error = Validate.validateObject(data, this.schema);
-    if (error) {
-      throw error;
-    }
-    this.repo.add(data, req.user.userName)
+    this.repo.add(data)
       .then(item => res.send(item))
       .catch(next);
   }
@@ -47,11 +42,7 @@ module.exports = class Controller {
     if (req.params.id !== data.id) {
       throw new ApiError('Body id doesn\'t match url id.', data, 400)
     }
-    const error = Validate.validateObject(data, this.schema);
-    if (error) {
-      throw error;
-    }
-    this.repo.update(data, req.user.userName)
+    this.repo.update(data)
       .then(item => {
         if (item) {
           res.send(item);
