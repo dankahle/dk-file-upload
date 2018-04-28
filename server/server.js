@@ -12,14 +12,17 @@ process.on('unhandledRejection', (reason, p) => {
   // application specific logging, throwing an error, or other logic here
 });
 
-// config data sources
+const mongoUri = 'mongodb://localhost:27017/file-upload';
 mongoose.connect(config.mongoUri)
-  .then(() => console.log(`mongoose connected on: ${config.mongoUri}`),
+  .then(() => console.log(`mongoose connected on: ${mongoUri}`),
     err => console.log(`mongoose connection error: ${config.mongoUri}`, err));
 
 
 
 const app = require('express');
-app.use('/api/file', fileRouter);
+app.use(bodyParser.json());
+
+
+app.use('/api/contacts', fileRouter);
 
 
