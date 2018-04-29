@@ -1,33 +1,10 @@
 
-you added remove and put download in xhr which doesn't workl, but checking anyway...
-so download to regular link and get remove working
+
+todo:
+* angular-file for consistent choose file button and dropzone
 
 
 
-today:
-* upload separate? not on change event, but with button.
-* multer on eveyrthing like body parser?
-* switch body request and multer around? but body handler dosnt' call next
-* separete body req and file upload? I..e if body passes... then do file upload, but that's still best done on server right?
-and  when would that stop? I.e. if upload.single still calls next... then how does it end? 404?
-* gridfs streaming maybe easy, get away from gridfs-stream and just stream multer's buffer to mongo and pipe mongos query to res??
-
-* look at other ng file handlers, angular-file is the one she was looking at
-* native file upload looks like crap, you have to use this thing just to get a consistent look and feel right? I mean look at that stupid button then show right?
-
-
-
-pass:
-
-gridfs-stream code is working, but nobody's maintaining the project... is there a way to bypass it?
-
-Maybe the gridfs thing should go away and just put it in a collection, but this is the big hammer that will always work. Pisses me off that this gridfs-stream isn't being maintained. Maybe it would lose backwards compat? Can just look for nextObject and next then.
-
-So... have contacts being populated with req.body and fs populated with the file and can do a query.populate(file) on contacts to get the file included in the contact info, but get all the props, would have to truncate the yourself, i.e. mg only watches what goes in db, not what comes out. Need a functin that limits to props in teh schema only for reads. Nto sure why they don't do that, maybe they do, but not for populate??
-
-So where from here? Maybe play around with POST api/file, i.e. makes sense you're preceding the contacts post with the file, the onto contacts post, but in reality, if you're just uploading a file... then api/file post seems appropriate.
-
-oh, how about feedback? Is there a way to show progress of upload or download? Not important though.
 
 
 
