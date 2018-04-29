@@ -17,7 +17,7 @@ module.exports = class FileController {
     if (!req.query.directory) {
       throw new ApiError('Directory required.', null, 400);
     }
-    this.repo.getMany(req.query)
+    this.repo.getMany(req.body)
       .then(rules => res.send(rules))
       .catch(next);
   }
@@ -63,7 +63,7 @@ module.exports = class FileController {
   }
 
   uploadMany(req, res, next) {
-    return this.repo.getManyIds(req.files.map(file => file.id), req.query)
+    return this.repo.getManyIds(req.files.map(file => file.id), req.body)
       .then(files => res.send(files))
       .catch(next);
   }

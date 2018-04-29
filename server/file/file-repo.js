@@ -22,22 +22,22 @@ module.exports = class FileRepo {
   }
 
   // must have a directory, can also have type, limit, skip
-  getMany(rq) {
-    const filter = {'metadata.directory': rq.directory};
-    if (rq.type) {
-      filter['metadata.type'] = rq.type;
+  getMany(parms) {
+    const filter = {'metadata.directory': parms.directory};
+    if (parms.type) {
+      filter['metadata.type'] = parms.type;
     }
     const query = this.Model.find(filter);
-    if (rq.limit && rq.skip !== undefined) {
-      query.skip(Number(rq.skip)).limit(Number(rq.limit))
+    if (parms.limit && parms.skip !== undefined) {
+      query.skip(Number(parms.skip)).limit(Number(parms.limit))
     }
     return query.exec();
   }
 
-  getManyIds(ids, rq) {
+  getManyIds(ids, parms) {
     const query = this.Model.find({_id: {$in: ids}});
-    if (rq.limit && rq.skip !== undefined) {
-      query.skip(Number(rq.skip)).limit(Number(rq.limit))
+    if (parms.limit && parms.skip !== undefined) {
+      query.skip(Number(parms.skip)).limit(Number(parms.limit))
     }
     return query.exec();
   }

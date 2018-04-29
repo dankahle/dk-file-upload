@@ -10,10 +10,7 @@ const storage = multerGridFsStorage({
   file: (req, file) => {
     const a =  {
       filename: file.originalname,
-      metadata: {
-        userId: req.user.userName,
-        directory: req.body.fileUploadDirectory
-      }
+      metadata: Object.assign({userId: req.user.userName}, req.body || {})
     };
     return a;
   }

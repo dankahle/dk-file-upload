@@ -6,7 +6,7 @@ import {FsFile} from './fsfile';
 import {environment} from '../environments/environment';
 
 const apiUrl = environment.apiUrl;
-const directory = 'profitability.business-upload';
+const directory = 'module1.section3';
 
 @Injectable()
 export class FileService {

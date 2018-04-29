@@ -20,7 +20,10 @@ const app = express();
 
 // app.use(express.static('dist'));
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:4200'],
+  credentials: true
+}));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use((req,res,next) => {
