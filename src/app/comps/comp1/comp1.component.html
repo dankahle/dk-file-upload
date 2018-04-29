@@ -36,8 +36,14 @@
 <form #form="ngForm">
   name: <input name="name" [(ngModel)]="contact.name" autocomplete="off"><br>
   age: <input name="age" [(ngModel)]="contact.age" autocomplete="off"><br>
-  <input #fileUp type="file" placeholder="Upload file" accept=".csv,.xlsx" multiple><br>
+  <label class="custom-file-upload">
+    <input #fileUp type="file" placeholder="Upload file" accept=".csv,.xlsx" multiple (change)="$event">
+    Custom Upload
+  </label><br>
 
-  <button (click)="submit()">submit</button><br>
+  <button mat-button (click)="submit()">submit</button><br>
 </form>
 
+files to upload:<br>
+<div *ngFor="let file2 of fileUp.files">{{file2.name}}  {{file2.type}}</div>
+<button mat-button *ngIf="fileUp.files?.length">upload</button>

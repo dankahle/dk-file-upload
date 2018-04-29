@@ -8,17 +8,26 @@ import {FormsModule} from '@angular/forms';
 import {ContactService} from './contact.service';
 import {HttpClientModule} from '@angular/common/http';
 import {FileService} from './file.service';
+import { AngularFileComponent } from './comps/angular-file/angular-file.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatInputModule} from '@angular/material';
+import {ngfModule} from 'angular-file';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    Comp1Component
+    Comp1Component,
+    AngularFileComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatInputModule,
+    MatButtonModule,
+    ngfModule
   ],
   providers: [ContactService, FileService],
   bootstrap: [AppComponent]

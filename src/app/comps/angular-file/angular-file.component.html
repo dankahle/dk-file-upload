@@ -1,0 +1,25 @@
+<input
+  ngf
+  multiple
+  type      = "file"
+  accept    = ".csv,.xlsx"
+  [(files)] = "files"
+  maxSize   = "1024"
+/>
+<button *ngIf="files" (click)="uploadFiles(files)">send files</button>
+
+<ngfFormData
+  [files]      = "files"
+  [(FormData)] = "myFormData"
+  postName     = "fileUploadField"
+></ngfFormData>
+
+<ngfUploadStatus
+  [(percent)] = "uploadPercent"
+  [httpEvent] = "httpEvent"
+></ngfUploadStatus>
+
+<div *ngIf="uploadPercent">
+  Upload Progress: {{ uploadPercent }}%
+</div>
+

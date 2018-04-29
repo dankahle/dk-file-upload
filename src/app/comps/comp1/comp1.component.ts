@@ -48,6 +48,7 @@ export class Comp1Component implements OnInit {
       console.error('please choose a file');
       return;
     }
+    console.log(fileInput.files);
 
     this.contactService.add(this.contact)
       .subscribe(contact => {
