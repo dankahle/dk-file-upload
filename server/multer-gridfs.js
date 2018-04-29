@@ -1,4 +1,5 @@
-const mg = require('mongoose'),
+const config = require('./config.json'),
+  mg = require('mongoose'),
   dbPromise = require('./mongoose-conn'),
   multer = require('multer'),
   multerGridFsStorage = require('multer-gridfs-storage');
@@ -19,8 +20,8 @@ const storage = multerGridFsStorage({
 });
 const upload = multer({
   storage, limits: {
-    fileSize: 500000000, //500mb should do it
-    files: 100
+    fileSize: config.fileSizeMax,
+    files: config.fileCountMax
   }
 });
 module.exports = upload;

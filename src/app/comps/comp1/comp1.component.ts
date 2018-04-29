@@ -36,7 +36,7 @@ export class Comp1Component implements OnInit {
   refresh() {
     this.contactService.getMany()
       .subscribe(contacts => this.contacts = contacts);
-    this.fileService.getMany()
+    this.fileService.getInfoMany()
       .subscribe(files => this.files = files);
   }
 
@@ -51,39 +51,49 @@ export class Comp1Component implements OnInit {
 
     this.contactService.add(this.contact)
       .subscribe(contact => {
-        this.fileService.addMany(fileInput.files)
+        this.fileService.uploadMany(fileInput.files)
           .subscribe(files => this.refresh());
 
         /*
-        this.fileService.addOne(fileInput.files[0])
+        this.fileService.uploadOne(fileInput.files[0])
           .subscribe(file => this.refresh());
 */
       });
 
   }
 
-
-/*
-  fileChange(event) {
-    let fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      let file: File = fileList[0];
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-      let headers = new HttpHeaders();
-      /!** In Angular 5, including the header Content-Type can invalidate your request *!/
-      // headers.append('Content-Type', 'multipart/form-data');
-      headers.append('Accept', 'application/json');
-      let options = {headers: headers};
-      this.http.post(`${this.apiEndPoint}`, formData, options)
-        .map(res => res.json())
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => console.log('success'),
-          error => console.log(error)
-        );
-    }
+  getDownloadLink(id) {
+    return `${environment.apiUrl}/api/file/${id}`;
   }
-*/
+
+  remove(id) {
+    this.fileService.remove(id)
+      .subscribe(fileInfo => this.refresh());
+
+  }
+
+
+  /*
+    fileChange(event) {
+      let fileList: FileList = event.target.files;
+      if (fileList.length > 0) {
+        let file: File = fileList[0];
+        let formData: FormData = new FormData();
+        formData.append('uploadFile', file, file.name);
+        let headers = new HttpHeaders();
+        /!** In Angular 5, including the header Content-Type can invalidate your request *!/
+        // headers.append('Content-Type', 'multipart/form-data');
+        headers.append('Accept', 'application/json');
+        let options = {headers: headers};
+        this.http.post(`${this.apiEndPoint}`, formData, options)
+          .map(res => res.json())
+          .catch(error => Observable.throw(error))
+          .subscribe(
+            data => console.log('success'),
+            error => console.log(error)
+          );
+      }
+    }
+  */
 
 }

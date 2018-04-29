@@ -6,9 +6,12 @@ const express = require('express'),
 const ctrl = new Controller();
 
 module.exports = fileRouter
-  .get('/', ctrl.getMany.bind(ctrl))
-  .post('/multiple', upload.array('fileUploadField'), ctrl.addMultiple.bind(ctrl))
-  .post('/single', upload.single('fileUploadField'), ctrl.addSingle.bind(ctrl))
-  .get('/:id', ctrl.getOne.bind(ctrl))
-  .put('/:id', ctrl.update.bind(ctrl))
+  // fileInfo handlers
+  .get('/info', ctrl.getInfoMany.bind(ctrl))
+  .get('/info/:id', ctrl.getInfoOne.bind(ctrl))
+
+  // file handlers
   .delete('/:id', ctrl.remove.bind(ctrl))
+  .get('/:id', ctrl.download.bind(ctrl))
+  .post('/multiple', upload.array('fileUploadField'), ctrl.uploadMany.bind(ctrl))
+  .post('/single', upload.single('fileUploadField'), ctrl.uploadOne.bind(ctrl))

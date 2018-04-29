@@ -12,6 +12,8 @@
     <th>directory</th>
   </tr>
   <tr *ngFor="let file of files">
+    <td><a [href]="getDownloadLink(file.id)">download</a> </td>
+    <td><a href="javascript:void(0)" (click)="remove(file.id)">delete</a> </td>
     <td>{{file.id}}</td>
     <td>{{file.length}}</td>
     <td>{{file.uploadDate}}</td>

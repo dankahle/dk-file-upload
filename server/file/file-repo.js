@@ -2,8 +2,8 @@ const mg = require('mongoose'),
   ApiError = require('../api-error'),
   _ = require('lodash');
 
+// this is for fs.files only (file info gets), has nothing to do with upload/download/remove files
 module.exports = class FileRepo {
-
 
   constructor() {
     this.schema = mg.Schema({
@@ -21,18 +21,23 @@ module.exports = class FileRepo {
     this.Model = mg.model('Files', this.schema);
   }
 
-  getMany(limit, skip) {
-    const query = this.Model.find();
-    if (limit && skip !== undefined) {
-      query.skip(Number(skip)).limit(Number(limit))
+  // must have a directory, can also have type, limit, skip
+  getMany(rq) {
+    const filter = {'metadata.directory': rq.directory};
+    if (rq.type) {
+      filter['metadata.type'] = rq.type;
+    }
+    const query = this.Model.find(filter);
+    if (rq.limit && rq.skip !== undefined) {
+      query.skip(Number(rq.skip)).limit(Number(rq.limit))
     }
     return query.exec();
   }
 
-  getManyIds(ids, limit, skip) {
+  getManyIds(ids, rq) {
     const query = this.Model.find({_id: {$in: ids}});
-    if (limit && skip !== undefined) {
-      query.skip(Number(skip)).limit(Number(limit))
+    if (rq.limit && rq.skip !== undefined) {
+      query.skip(Number(rq.skip)).limit(Number(rq.limit))
     }
     return query.exec();
   }
@@ -40,33 +45,6 @@ module.exports = class FileRepo {
   getOne(id) {
     return this.Model.findById(id).exec()
       .then(x => x);
-  }
-
-  getOneWithTimestamp(data) {
-    return this.Model.findOne({_id: data.id, timestamp: data.timestamp}).exec()
-      .then(item => {
-        if (!item) {
-          const err = new ApiError('Concurrency error, please refresh your data.', null, 400);
-          err.name = 'ConcurrencyError';
-          throw(err);
-        }
-        return item;
-      });
-  }
-
-  update(data) {
-    return this.get(data)
-      .then(item => {
-        _.merge(item, data);
-        delete item._id;
-        delete item.id;
-        return item.save()
-      });
-  }
-
-  remove(id) {
-    return this.getOne(id)
-      .then(item => item.remove());
   }
 
 }

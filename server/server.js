@@ -1,4 +1,5 @@
-const express = require('express'),
+const config = require('./config.json'),
+  express = require('express'),
   cors = require('cors'),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
@@ -27,8 +28,6 @@ app.use((req,res,next) => {
   next();
 })
 
-
-
 app.use('/api/contact', contactRouter);
 app.use('/api/file', fileRouter);
 
@@ -43,7 +42,13 @@ app.get('/', function(req, res, next) {
 })
 */
 
-const port = 3005;
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.statusCode || 500).send(err);
+});
+
+
+const port = process.env.PORT || config.port;
 app.listen(port, () => console.log(`listening on port: ${port}`))
 
 

@@ -1,4 +1,8 @@
 
+you added remove and put download in xhr which doesn't workl, but checking anyway...
+so download to regular link and get remove working
+
+
 
 today:
 * upload separate? not on change event, but with button.

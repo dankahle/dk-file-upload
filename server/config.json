@@ -1,0 +1,6 @@
+{
+  "port": 3005,
+  "mongoUri": "mongodb://localhost:27017/file-upload",
+  "fileSizeMax": 500000000,
+  "fileCountMax": 100
+}

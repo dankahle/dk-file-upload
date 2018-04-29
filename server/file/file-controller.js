@@ -12,13 +12,31 @@ module.exports = class FileController {
     this.schema = schema;
   }
 
-  getMany(req, res, next) {
-    this.repo.getMany(req.query.limit, req.query.skip)
+  // file info gets
+  getInfoMany(req, res, next) {
+    if (!req.query.directory) {
+      throw new ApiError('Directory required.', null, 400);
+    }
+    this.repo.getMany(req.query)
       .then(rules => res.send(rules))
       .catch(next);
   }
 
-  getOne(req, res, next) {
+  getInfoOne(req, res, next) {
+    this.repo.getOne(req.params.id)
+      .then(item => {
+        if (item) {
+          res.send(item);
+        } else {
+          res.status(404).end();
+        }
+      })
+      .catch(next)
+  }
+
+  // file upload/download/remove
+  // upload/download
+  download(req, res, next) {
     dbPromise.then(db => {
       var gfs = Grid(db, mg.mongo);
       gfs.findOne({_id: req.params.id}, function (err, file) {
@@ -36,7 +54,7 @@ module.exports = class FileController {
           _id: req.params.id
         });
 
-        readstream.on("error", function(err) {
+        readstream.on("error", function (err) {
           res.end();
         });
         readstream.pipe(res);
@@ -44,48 +62,34 @@ module.exports = class FileController {
     });
   }
 
-  addMultiple(req, res, next) {
-    return this.repo.getManyIds(req.files.map(file => file.id))
+  uploadMany(req, res, next) {
+    return this.repo.getManyIds(req.files.map(file => file.id), req.query)
       .then(files => res.send(files))
       .catch(next);
   }
 
-  addSingle(req, res, next) {
+  uploadOne(req, res, next) {
     return this.repo.getOne(req.file.id)
       .then(file => res.send(file))
       .catch(next);
   }
 
-  update(req, res, next) {
-    const data = req.body;
-    this.verifyProperties(data, ['id', 'timestamp']);
-    if (req.params.id !== data.id) {
-      throw new ApiError('Body id doesn\'t match url id.', data, 400)
-    }
-    this.repo.update(data)
-      .then(item => {
-        if (item) {
-          res.send(item);
-        } else {
-          res.sendStatus(404);
-        }
-      })
-      .catch(next)
-  }
-
   remove(req, res, next) {
-    this.repo.remove(req.params.id)
-      .then(item => res.send(item))
+    this.repo.getOne(req.params.id)
+      .then(fileInfo => {
+        dbPromise.then(db => {
+          const gfs = Grid(db, mg.mongo);
+          gfs.remove({_id: req.params.id}, function (err, gridStore) {
+            if (err) {
+              throw (err);
+            }
+            res.send(fileInfo);
+          });
+        });
+      })
       .catch(next);
   }
 
-  verifyProperties(data, arr) {
-    arr.forEach(prop => {
-      if (!data[prop]) {
-        throw new ApiError(`Property missing: ${prop}.`, data, 400)
-      }
-    })
-  }
 
 }
 

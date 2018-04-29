@@ -6,15 +6,8 @@ json like normal and gridfs stuff is confined to one endpoint, much better. YOu 
 rest has its own endpoints. 
 
 so far we have:
-get api/file/:id
-and 
+get api/file/dowload/:id
 post api/file/single
 post api/file/multiple
 
-todo: 
-* PUT THIS IN CONFIG: need to set limits on multer for file size and number for dos attacks
-* need to hold off on server creation till you have a connection to mongo, then can stop the promise stuff for mongoos connection
-
-* fileservice: regular crud for fs.files and separate upload/download methods, so you can get file info with normal crud, the upload
-  download being something outside of all that. Then you're donw.
-   
+then regular crud for fs.files so we can query file info, then download one, need to allow query by directory and type
