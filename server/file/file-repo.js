@@ -1,21 +1,24 @@
 const mg = require('mongoose'),
-  ApiError = require('./api-error'),
+  ApiError = require('../api-error'),
   _ = require('lodash');
 
-module.exports = class Repo {
+module.exports = class FileRepo {
 
 
   constructor() {
     this.schema = mg.Schema({
-      name: {type: String, required: true},
-      age: {type: String, required: true}
-    });
+      length: Number,
+      uploadDate: String,
+      filename: String,
+      contentType: String,
+      metadata: Object
+    }, {collection: 'fs.files'});
 
     this.schema.set('toObject', {virtuals: true});
     this.schema.virtual('id').get(function() {
       return this._id.toString();
     });
-    this.Model = mg.model('Contact', this.schema);
+    this.Model = mg.model('Files', this.schema);
   }
 
   getMany(limit, skip) {

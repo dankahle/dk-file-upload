@@ -1,11 +1,18 @@
 
 pass:
 
-so... what should go where?
+gridfs-stream code is working, but nobody's maintaining the project... is there a way to bypass it?
 
-contact >> contact collection
-file >> fs, but can have req.body in fs.file.metadata and can have filename/id/etc in contact collection.
+Maybe the gridfs thing should go away and just put it in a collection, but this is the big hammer that will always work. Pisses me off that this gridfs-stream isn't being maintained. Maybe it would lose backwards compat? Can just look for nextObject and next then.
 
-file is gonna be queried by ?? say admin wanted to see what was juploaded... then can list the files, need to get the user in there
+So... have contacts being populated with req.body and fs populated with the file and can do a query.populate(file) on contacts to get the file included in the contact info, but get all the props, would have to truncate the yourself, i.e. mg only watches what goes in db, not what comes out. Need a functin that limits to props in teh schema only for reads. Nto sure why they don't do that, maybe they do, but not for populate??
+
+So where from here? Maybe play around with POST api/file, i.e. makes sense you're preceding the contacts post with the file, the onto contacts post, but in reality, if you're just uploading a file... then api/file post seems appropriate.
+
+oh, how about feedback? Is there a way to show progress of upload or download? Not important though.
+
+
+
+
 
 

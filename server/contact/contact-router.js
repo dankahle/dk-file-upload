@@ -1,11 +1,11 @@
 const express = require('express'),
-  router = express.Router(),
-  Controller = require('./controller'),
-  upload = require('./multer-gridfs')
+  contactRouter = express.Router(),
+  Controller = require('./contact-controller'),
+  upload = require('../multer-gridfs')
 
 const ctrl = new Controller();
 
-module.exports = router
+module.exports = contactRouter
   .get('/', ctrl.getMany.bind(ctrl))
   .post('/', upload.single('fileUploadField'), ctrl.add.bind(ctrl))
   .get('/:id', ctrl.getOne.bind(ctrl))

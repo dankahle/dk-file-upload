@@ -2,15 +2,23 @@
 
 <h3>File List</h3>
 <table>
-  <tr><th>id</th><th>fileName</th><th>size</th><th>module</th><th>section</th><th>type</th><th></th></tr>
+  <tr>
+    <th>id</th>
+    <th>length</th>
+    <th>uploadDate</th>
+    <th>fileName</th>
+    <th>contentType</th>
+    <th>userName</th>
+    <th>directory</th>
+  </tr>
   <tr *ngFor="let file of files">
     <td>{{file.id}}</td>
-    <td>{{file.fileName}}</td>
-    <td>{{file.mime}}</td>
-    <td>{{file.size}}</td>
-    <td>{{file.module}}</td>
-    <td>{{file.section}}</td>
-    <td>{{file.type}}</td>
+    <td>{{file.length}}</td>
+    <td>{{file.uploadDate}}</td>
+    <td>{{file.filename}}</td>
+    <td>{{file.contentType.substr(0, 16)}}</td>
+    <td>{{file.metadata.userName}}</td>
+    <td>{{file.metadata.directory}}</td>
   </tr>
 </table>
 <br><br>
@@ -20,6 +28,7 @@
     <td>{{contact.id}}</td>
     <td>{{contact.name}}</td>
     <td>{{contact.age}}</td>
+    <td>{{contact.file.filename}} <a href="http://localhost:3005/api/file/{{contact.file.id}}">download</a></td>
   </tr>
 </table>
 <br><br>

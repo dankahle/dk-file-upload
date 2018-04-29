@@ -25,6 +25,7 @@
     "core-js": "^2.4.1",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "gridfs-stream": "git+https://github.com/dankahle/gridfs-stream.git",
     "lodash": "^4.17.10",
     "mongoose": "^5.0.16",
     "morgan": "^1.9.0",

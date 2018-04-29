@@ -1,16 +1,11 @@
 const mg = require('mongoose'),
-  mgConn = require('./mongoose-conn'),
+  dbPromise = require('./mongoose-conn'),
   multer = require('multer'),
   multerGridFsStorage = require('multer-gridfs-storage');
 
-const db = new Promise((resolve, reject) => {
-  mgConn.then(() => {
-    resolve(mg.connection.db);
-  }, err => reject(err))
-});
 
 const storage = multerGridFsStorage({
-  db: db,
+  db: dbPromise,
   file: (req, file) => {
     const a =  {
       filename: file.originalname,
@@ -21,15 +16,6 @@ const storage = multerGridFsStorage({
     };
     return a;
   }
-  /*
-    metadata: (req, file, cb) => {
-      cb(null, {
-        fileName: file.originalname,
-        mimetype: file.mimetype,
-        uploadType: req.body.uploadType
-      });
-    }
-  */
 });
 const upload = multer({
   storage, limits: {

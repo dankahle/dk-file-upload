@@ -4,6 +4,8 @@ import {ContactService} from '../../contact.service';
 import {Observable} from 'rxjs/Observable';
 import {HttpHeaders} from '@angular/common/http';
 import * as _ from 'lodash';
+import {FileService} from '../../file.service';
+import {File} from '../../file';
 
 @Component({
   selector: 'app-comp1',
@@ -13,9 +15,11 @@ import * as _ from 'lodash';
 export class Comp1Component {
   contact = new Contact();
   contacts: Contact[];
+  files: File[];
+
   @ViewChild('fileUp') fileUp;
 
-  constructor(private contactService: ContactService) {
+  constructor(private contactService: ContactService, private fileService: FileService) {
   }
 
   ngOnInit() {
@@ -30,8 +34,10 @@ export class Comp1Component {
 */
 
   refresh() {
-    return this.contactService.getMany()
+    this.contactService.getMany()
       .subscribe(contacts => this.contacts = contacts);
+    this.fileService.getMany()
+      .subscribe(files => this.files = files);
   }
 
 
