@@ -28,14 +28,13 @@
     <td>{{contact.id}}</td>
     <td>{{contact.name}}</td>
     <td>{{contact.age}}</td>
-    <td>{{contact.file.filename}} <a href="http://localhost:3005/api/file/{{contact.file.id}}">download</a></td>
   </tr>
 </table>
 <br><br>
 <form #form="ngForm">
   name: <input name="name" [(ngModel)]="contact.name" autocomplete="off"><br>
   age: <input name="age" [(ngModel)]="contact.age" autocomplete="off"><br>
-  <input #fileUp type="file" placeholder="Upload file" accept=".csv,.xlsx"><br>
+  <input #fileUp type="file" placeholder="Upload file" accept=".csv,.xlsx" multiple><br>
 
   <button (click)="submit()">submit</button><br>
 </form>

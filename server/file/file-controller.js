@@ -44,17 +44,16 @@ module.exports = class FileController {
     });
   }
 
-  add(req, res, next) {
-    const file = req.file;
-    delete file.buffer;
-    res.send(file);
-/*
-    const data = req.body;
-    data.fileId = req.file.id;
-    this.repo.add(data)
-      .then(item => res.send(item))
+  addMultiple(req, res, next) {
+    return this.repo.getManyIds(req.files.map(file => file.id))
+      .then(files => res.send(files))
       .catch(next);
-*/
+  }
+
+  addSingle(req, res, next) {
+    return this.repo.getOne(req.file.id)
+      .then(file => res.send(file))
+      .catch(next);
   }
 
   update(req, res, next) {

@@ -10,23 +10,23 @@ const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class ContactService {
-  endpointName = 'contact'
 
   constructor(protected httpClient: HttpClient) {
   }
 
   getMany(): Observable<Contact[]> {
-    return this.httpClient.get<Contact[]>(`${apiUrl}/api/${this.endpointName}`);
+    return this.httpClient.get<Contact[]>(`${apiUrl}/api/contact`);
   }
 
   getOne(id: number): Observable<Contact> {
-    return this.httpClient.get<Contact>(`${apiUrl}/api/${this.endpointName}/${id}`);
+    return this.httpClient.get<Contact>(`${apiUrl}/api/contact/${id}`);
   }
 
   add(data) {
-    return this.httpClient.post<Contact>(`${apiUrl}/api/${this.endpointName}`, data);
+    return this.httpClient.post<Contact>(`${apiUrl}/api/contact`, data);
   }
 
+/*
   directory = 'profitability.business-upload';
 
   addFd(data, files: FileList) {
@@ -41,14 +41,15 @@ export class ContactService {
       }
     }
     const fdOptions = {headers: {Accept: 'application/json'}};
-    return this.httpClient.post<Contact>(`${apiUrl}/api/${this.endpointName}`, formData, fdOptions);
+    return this.httpClient.post<Contact>(`${apiUrl}/api/contact`, formData, fdOptions);
   }
+*/
 
   update(data: Contact): Observable<Contact> {
-    return this.httpClient.put<Contact>(`${apiUrl}/api/${this.endpointName}/${data.id}`, data);
+    return this.httpClient.put<Contact>(`${apiUrl}/api/contact/${data.id}`, data);
   }
 
   remove(id: number): Observable<Contact> {
-    return this.httpClient.delete<Contact>(`${apiUrl}/api/${this.endpointName}/${id}`);
+    return this.httpClient.delete<Contact>(`${apiUrl}/api/contact/${id}`);
   }
 }

@@ -29,6 +29,14 @@ module.exports = class FileRepo {
     return query.exec();
   }
 
+  getManyIds(ids, limit, skip) {
+    const query = this.Model.find({_id: {$in: ids}});
+    if (limit && skip !== undefined) {
+      query.skip(Number(skip)).limit(Number(limit))
+    }
+    return query.exec();
+  }
+
   getOne(id) {
     return this.Model.findById(id).exec()
       .then(x => x);
@@ -44,14 +52,6 @@ module.exports = class FileRepo {
         }
         return item;
       });
-  }
-
-  add(data) {
-    // if versioning items, our edits will actually be adds, so dump the ids in that case
-    delete data._id;
-    delete data.id;
-    const item = new this.Model(data);
-    return item.save();
   }
 
   update(data) {

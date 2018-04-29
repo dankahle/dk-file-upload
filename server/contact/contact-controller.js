@@ -30,8 +30,6 @@ module.exports = class ContactController {
 
   add(req, res, next) {
     const data = req.body;
-    data.file = req.file.id;
-    data.fileId = req.file.id;
     this.repo.add(data)
       .then(item => res.send(item))
       .catch(next);

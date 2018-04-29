@@ -1,53 +1,57 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {File} from './file';
 import * as _ from 'lodash';
+import {FsFile} from './fsfile';
 
 const apiUrl = 'http://localhost:3005';
 
 
 @Injectable()
 export class FileService {
-  endpointName = 'file';
 
   constructor(protected httpClient: HttpClient) {
   }
 
-  getMany(): Observable<File[]> {
-    return this.httpClient.get<File[]>(`${apiUrl}/api/${this.endpointName}`);
+  getMany(): Observable<FsFile[]> {
+    return this.httpClient.get<FsFile[]>(`${apiUrl}/api/file`);
   }
 
-  getOne(id: number): Observable<File> {
-    return this.httpClient.get<File>(`${apiUrl}/api/${this.endpointName}/${id}`);
-  }
-
-  add(data) {
-    return this.httpClient.post<File>(`${apiUrl}/api/${this.endpointName}`, data);
+  getOne(id: number): Observable<FsFile> {
+    return this.httpClient.get<FsFile>(`${apiUrl}/api/file/${id}`);
   }
 
   directory = 'profitability.business-upload';
 
-  addFd(data, files: FileList) {
-    const formData: FormData = new FormData();
-    _.forEach(data, (val, key) => formData.append(key, val));
-    formData.append('fileUploadDirectory', this.directory);
-    const file = files[0];
-    formData.append('fileUploadField', file, file.name);
-    let options = {
-      headers: {
-        Accept: 'application/json'
-      }
+  addMany(files: FileList): Observable<FsFile> {
+    if (!files || !this.directory) {
+      console.error('files or directory missing');
+      return Observable.throw('Files or directory missing');
     }
+    const formData: FormData = new FormData();
+    formData.append('fileUploadDirectory', this.directory);
+    _.forEach(files, file => formData.append('fileUploadField', file, file.name))
     const fdOptions = {headers: {Accept: 'application/json'}};
-    return this.httpClient.post<File>(`${apiUrl}/api/${this.endpointName}`, formData, fdOptions);
+    return this.httpClient.post<FsFile>(`${apiUrl}/api/file/multiple`, formData, fdOptions);
   }
 
-  update(data: File): Observable<File> {
-    return this.httpClient.put<File>(`${apiUrl}/api/${this.endpointName}/${data.id}`, data);
+  addOne(file: File): Observable<FsFile> {
+    if (!file || !this.directory) {
+      console.error('files or directory missing');
+      return Observable.throw('Files or directory missing, or not a single file');
+    }
+    const formData: FormData = new FormData();
+    formData.append('fileUploadDirectory', this.directory);
+    formData.append('fileUploadField', file, file.name);
+    const fdOptions = {headers: {Accept: 'application/json'}};
+    return this.httpClient.post<FsFile>(`${apiUrl}/api/file/single`, formData, fdOptions);
   }
 
-  remove(id: number): Observable<File> {
-    return this.httpClient.delete<File>(`${apiUrl}/api/${this.endpointName}/${id}`);
+  update(data: FsFile): Observable<FsFile> {
+    return this.httpClient.put<FsFile>(`${apiUrl}/api/file/${data.id}`, data);
+  }
+
+  remove(id: number): Observable<FsFile> {
+    return this.httpClient.delete<FsFile>(`${apiUrl}/api/file/${id}`);
   }
 }

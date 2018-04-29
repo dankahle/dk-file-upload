@@ -5,8 +5,8 @@ import {Observable} from 'rxjs/Observable';
 import {HttpHeaders} from '@angular/common/http';
 import * as _ from 'lodash';
 import {FileService} from '../../file.service';
-import {File} from '../../file';
 import {environment} from '../../../environments/environment';
+import {FsFile} from '../../fsfile';
 
 @Component({
   selector: 'app-comp1',
@@ -16,7 +16,7 @@ import {environment} from '../../../environments/environment';
 export class Comp1Component implements OnInit {
   contact = new Contact();
   contacts: Contact[];
-  files: File[];
+  files: FsFile[];
   @ViewChild('fileUp') fileUp;
 
   constructor(private contactService: ContactService, private fileService: FileService) {
@@ -49,8 +49,16 @@ export class Comp1Component implements OnInit {
       return;
     }
 
-    this.contactService.addFd(this.contact, fileInput.files)
-      .subscribe(() => this.refresh());
+    this.contactService.add(this.contact)
+      .subscribe(contact => {
+        this.fileService.addMany(fileInput.files)
+          .subscribe(files => this.refresh());
+
+        /*
+        this.fileService.addOne(fileInput.files[0])
+          .subscribe(file => this.refresh());
+*/
+      });
 
   }
 

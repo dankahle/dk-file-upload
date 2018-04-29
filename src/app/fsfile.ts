@@ -5,7 +5,7 @@ class MetaData {
   directory: string;
 }
 
-export class File {
+export class FsFile {
   id: string;
   length: number;
   uploadDate: string;
