@@ -3,8 +3,9 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Contact} from './contact';
 import * as _ from 'lodash';
+import {environment} from '../environments/environment';
 
-const apiUrl = 'http://localhost:3005';
+const apiUrl = environment.apiUrl;
 
 
 @Injectable()

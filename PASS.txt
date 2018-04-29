@@ -1,4 +1,18 @@
 
+
+today:
+* upload separate? not on change event, but with button.
+* multer on eveyrthing like body parser?
+* switch body request and multer around? but body handler dosnt' call next
+* separete body req and file upload? I..e if body passes... then do file upload, but that's still best done on server right?
+and  when would that stop? I.e. if upload.single still calls next... then how does it end? 404?
+* gridfs streaming maybe easy, get away from gridfs-stream and just stream multer's buffer to mongo and pipe mongos query to res??
+
+* look at other ng file handlers, angular-file is the one she was looking at
+* native file upload looks like crap, you have to use this thing just to get a consistent look and feel right? I mean look at that stupid button then show right?
+
+
+
 pass:
 
 gridfs-stream code is working, but nobody's maintaining the project... is there a way to bypass it?

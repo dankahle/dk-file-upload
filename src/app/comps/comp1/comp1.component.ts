@@ -6,17 +6,17 @@ import {HttpHeaders} from '@angular/common/http';
 import * as _ from 'lodash';
 import {FileService} from '../../file.service';
 import {File} from '../../file';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-comp1',
   templateUrl: './comp1.component.html',
   styleUrls: ['./comp1.component.scss']
 })
-export class Comp1Component {
+export class Comp1Component implements OnInit {
   contact = new Contact();
   contacts: Contact[];
   files: File[];
-
   @ViewChild('fileUp') fileUp;
 
   constructor(private contactService: ContactService, private fileService: FileService) {

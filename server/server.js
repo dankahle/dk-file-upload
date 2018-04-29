@@ -4,7 +4,9 @@ const express = require('express'),
   morgan = require('morgan'),
   contactRouter = require('./contact/contact-router'),
   fileRouter = require('./file/file-router'),
-  mgConn = require('./mongoose-conn');
+  mgConn = require('./mongoose-conn'),
+  fs = require('fs'),
+  path = require('path');
 
 
 process.on('unhandledRejection', (reason, p) => {
@@ -14,6 +16,9 @@ process.on('unhandledRejection', (reason, p) => {
 
 
 const app = express();
+
+// app.use(express.static('dist'));
+
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -26,6 +31,17 @@ app.use((req,res,next) => {
 
 app.use('/api/contact', contactRouter);
 app.use('/api/file', fileRouter);
+
+/*
+app.get('/', function(req, res, next) {
+  fs.readFile('dist/index.html', 'utf8', (err, text) => {
+    if (err) {
+      next(err);
+    }
+    res.send(text);
+  });
+})
+*/
 
 const port = 3005;
 app.listen(port, () => console.log(`listening on port: ${port}`))
