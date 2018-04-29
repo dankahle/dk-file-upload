@@ -1,7 +1,6 @@
 const express = require('express'),
   contactRouter = express.Router(),
-  Controller = require('./contact-controller'),
-  upload = require('../multer-gridfs')
+  Controller = require('./contact-controller');
 
 const ctrl = new Controller();
 
