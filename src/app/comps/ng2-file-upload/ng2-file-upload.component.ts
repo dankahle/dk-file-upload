@@ -4,7 +4,7 @@ import {environment} from '../../../environments/environment';
 
 
 const options = {
-  url: environment.apiUrl + '/api/file/multiple',
+  url: environment.apiUrl + '/api/file',
   parametersBeforeFiles: true,
   itemAlias: 'fileUploadField',
   additionalParameter: {

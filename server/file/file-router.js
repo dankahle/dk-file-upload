@@ -13,5 +13,4 @@ module.exports = fileRouter
   // file handlers
   .delete('/:id', ctrl.remove.bind(ctrl))
   .get('/:id', ctrl.download.bind(ctrl))
-  .post('/multiple', upload.array('fileUploadField'), ctrl.uploadMany.bind(ctrl))
-  .post('/single', upload.single('fileUploadField'), ctrl.uploadOne.bind(ctrl))
+  .post('/', upload.array('fileUploadField'), ctrl.uploadMany.bind(ctrl))
