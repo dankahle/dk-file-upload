@@ -1,13 +1,21 @@
-## dk-file-upload - form-then-upload branch
+## dk-file-upload - ng2-file-upload
 
-the idea here is to tackle the form first, THEN tackle the upload, reason being: if form is invalid and fails
-server side, we dont' want that file coming up. This also separates the file from the form so form can go
-json like normal and gridfs stuff is confined to one endpoint, much better. YOu want to upload or download a file? api/file
-rest has its own endpoints. 
 
-so far we have:
-get api/file/dowload/:id
-post api/file/single
-post api/file/multiple
+you don't much from these packages. This stuff is easy to do: FormData additions and posting to the api...
 
-then regular crud for fs.files so we can query file info, then download one, need to allow query by directory and type
+you started posting form, then file separately which works better with these things, but in reality, all they give you is a queue to hold the files, so you can add more to th queue and status to know whihc ones have already beeen uploaded so you don't do it twice.
+
+It only uploads one file at a time which isn't cool, what's wrong with doing all at once? 
+
+The progress is nice, but you can get that just as easily with HttpRequest.showProgress. Only thing you can't do easiy is the drag/drop they do. NOt sure where they get that from, just that they have it. 
+
+you have a hack for a nice upload button so don't need angular-file, this ng2-file-upload is just fine, if you have to go that route... you don't though. To recap what it gives you:
+
+* unneeded: queue to hold files and status of each file and ability to upload one at a time (that's all it does anyway).
+* unneeded: drag drop
+* unneeded: progress (and can roll this yourself easily enough, its' expensive though, constantly churning digests
+
+ 
+
+
+
