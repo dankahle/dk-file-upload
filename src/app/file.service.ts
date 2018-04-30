@@ -23,10 +23,6 @@ export class FileService {
   }
 
 
-  download(id) {
-    return this.httpClient.get<any>(`${apiUrl}/api/file/${id}`);
-  }
-
   remove(id: number): Observable<FsFile> {
     return this.httpClient.delete<FsFile>(`${apiUrl}/api/file/${id}`);
   }

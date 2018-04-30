@@ -45,7 +45,7 @@ module.exports = class FileController {
         }
 
         res.set('Content-Type', file.contentType);
-        res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+        res.set('Content-Disposition', 'attachment; filename="' + file.metadata.fileName + '"');
 
         var readstream = gfs.createReadStream({
           _id: req.params.id
