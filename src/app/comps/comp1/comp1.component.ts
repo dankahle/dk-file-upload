@@ -36,7 +36,7 @@ export class Comp1Component implements OnInit {
   refresh() {
     this.contactService.getMany()
       .subscribe(contacts => this.contacts = contacts);
-    this.fileService.getInfoMany()
+    this.fileService.getInfoMany({directory: 'module1.section2'})
       .subscribe(files => this.files = files);
   }
 
@@ -51,13 +51,8 @@ export class Comp1Component implements OnInit {
 
     this.contactService.add(this.contact)
       .subscribe(contact => {
-        this.fileService.uploadMany(fileInput.files)
+        this.fileService.upload(fileInput.files, {directory: 'module1.section2', type: 'type456'})
           .subscribe(files => this.refresh());
-
-        /*
-        this.fileService.uploadOne(fileInput.files[0])
-          .subscribe(file => this.refresh());
-*/
       });
 
   }

@@ -11,3 +11,5 @@ post api/file/single
 post api/file/multiple
 
 then regular crud for fs.files so we can query file info, then download one, need to allow query by directory and type
+
+

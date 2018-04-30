@@ -1,9 +1,5 @@
 
 
-todo:
-* angular-file for consistent choose file button and dropzone
-
-
 
 
 

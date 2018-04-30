@@ -6,7 +6,6 @@ import {FsFile} from './fsfile';
 import {environment} from '../environments/environment';
 
 const apiUrl = environment.apiUrl;
-const directory = 'profitability.business-upload';
 
 @Injectable()
 export class FileService {
@@ -15,8 +14,8 @@ export class FileService {
   constructor(protected httpClient: HttpClient) {
   }
 
-  getInfoMany(): Observable<FsFile[]> {
-    return this.httpClient.get<FsFile[]>(`${apiUrl}/api/file/info`, {params: {directory} });
+  getInfoMany(metadata): Observable<FsFile[]> {
+    return this.httpClient.get<FsFile[]>(`${apiUrl}/api/file/info`, {params: metadata });
   }
 
   getInfoOne(id: number): Observable<FsFile> {
@@ -31,6 +30,19 @@ export class FileService {
   remove(id: number): Observable<FsFile> {
     return this.httpClient.delete<FsFile>(`${apiUrl}/api/file/${id}`);
   }
+
+  upload(files, metadata = {}): Observable<FsFile> {
+    const formData: FormData = new FormData();
+    _.forEach(metadata, (val, key) => formData.append(key, val));
+    _.forEach(files, file => formData.append('fileUploadField', file, file.name));
+    const fdOptions = {headers: {Accept: 'application/json'}};
+    return this.httpClient.post<FsFile>(`${apiUrl}/api/file`, formData, fdOptions);
+  }
+
+
+
+/*
+// only need the one, just have them pass in an array
 
   uploadMany(files: FileList): Observable<FsFile> {
     if (!files || !directory) {
@@ -55,6 +67,7 @@ export class FileService {
     const fdOptions = {headers: {Accept: 'application/json'}};
     return this.httpClient.post<FsFile>(`${apiUrl}/api/file/single`, formData, fdOptions);
   }
+*/
 
 
 }

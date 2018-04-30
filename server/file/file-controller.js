@@ -14,9 +14,6 @@ module.exports = class FileController {
 
   // file info gets
   getInfoMany(req, res, next) {
-    if (!req.query.directory) {
-      throw new ApiError('Directory required.', null, 400);
-    }
     this.repo.getMany(req.query)
       .then(rules => res.send(rules))
       .catch(next);
@@ -68,11 +65,14 @@ module.exports = class FileController {
       .catch(next);
   }
 
+  // uploadMany does one and many so just use that to simply the endpoint to one
+/*
   uploadOne(req, res, next) {
     return this.repo.getOne(req.file.id)
       .then(file => res.send(file))
       .catch(next);
   }
+*/
 
   remove(req, res, next) {
     this.repo.getOne(req.params.id)
